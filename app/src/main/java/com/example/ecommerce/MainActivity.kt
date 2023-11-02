@@ -1,12 +1,22 @@
 package com.example.ecommerce
 
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.location.Address
+import android.location.Geocoder
+import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerce.adapter.MyDrinkAdapter
@@ -26,12 +36,22 @@ import com.nex3z.notificationbadge.NotificationBadge
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import com.example.ecommerce.adapter.LocationConfirmationAdapter
+import com.example.ecommerce.adapter.CustomLocationAdapter
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnSuccessListener
+import android.Manifest
 
 class MainActivity : AppCompatActivity(), IDrinkLoadListener, ICartLoadListener {
 
     lateinit var drinkLoadListener: IDrinkLoadListener
     lateinit var cartLoadListener: ICartLoadListener
     private lateinit var auth: FirebaseAuth
+    private lateinit var locationConfirmationAdapter: LocationConfirmationAdapter
+    private lateinit var customLocationAdapter: CustomLocationAdapter
+    private val LOCATION_PERMISSION_REQUEST_CODE=100
+    private lateinit var fusedLocationClient:FusedLocationProviderClient
 
 
     override fun onStart() {
@@ -60,8 +80,63 @@ class MainActivity : AppCompatActivity(), IDrinkLoadListener, ICartLoadListener 
         countCartFromFirebase()
         auth = FirebaseAuth.getInstance()
 
-
+        locationConfirmationAdapter = LocationConfirmationAdapter(this)
+        customLocationAdapter = CustomLocationAdapter(this)
+        fusedLocationClient= LocationServices.getFusedLocationProviderClient(this)
     }
+    private fun updateLocationInFirebase(location: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
+
+        if (userId != null) {
+            // Define the Firebase reference where you want to store the user's location
+            val userLocationReference = FirebaseDatabase.getInstance().getReference("UserLocations")
+
+            // Store the user's location in Firebase
+            userLocationReference.child(userId).setValue(location)
+        }
+    }
+
+    fun getUserLocation(view: View) {
+        // Check if location permission is granted
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Request location permission if not granted
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        } else {
+            // Get the user's location and handle location confirmation and custom input
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener(this, OnSuccessListener<Location> { location ->
+                    if (location != null) {
+                        val geocoder = Geocoder(this)
+                        val addresses: List<Address>? = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+
+                        // Check if the list is not null and not empty
+                        addresses?.takeIf { it.isNotEmpty() }?.let { addressList ->
+                            val address = addressList[0]
+                            val obtainedLocation = address.getAddressLine(0)
+
+                            locationConfirmationAdapter.showLocationConfirmationDialog(
+                                obtainedLocation,
+                                {
+                                    // "Yes, set it as my location" button clicked
+                                    updateLocationInFirebase(obtainedLocation)
+                                },
+                                {
+                                    // "No, I want to input my location" button clicked
+                                    customLocationAdapter.showCustomLocationDialog { customLocation ->
+                                        // Save the custom location to Firebase
+                                        updateLocationInFirebase(customLocation)
+                                    }
+                                }
+                            )
+                        }
+                    }
+                })
+        }
+    }
+
+
+
 
 
     private fun countCartFromFirebase() {
@@ -138,7 +213,13 @@ class MainActivity : AppCompatActivity(), IDrinkLoadListener, ICartLoadListener 
             finish()
         }
 
+        var btnLocation = findViewById<ImageView>(R.id.btnLocation)
+        btnLocation.setOnClickListener{
+            getUserLocation(it)
+        }
+
     }
+
 
     override fun onDrinkLoadSuccess(drinkModelList: List<DrinkModel>?) {
         val adapter = MyDrinkAdapter(this,drinkModelList!!,cartLoadListener)
