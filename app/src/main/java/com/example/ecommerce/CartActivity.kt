@@ -1,7 +1,10 @@
 package com.example.ecommerce
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -14,6 +17,7 @@ import com.example.ecommerce.eventbus.UpdateCartEvent
 import com.example.ecommerce.listener.ICartLoadListener
 import com.example.ecommerce.model.CartModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,6 +30,9 @@ import java.lang.StringBuilder
 class CartActivity : AppCompatActivity(), ICartLoadListener {
 
     var cartLoadListener:ICartLoadListener?=null
+
+    val user = FirebaseAuth.getInstance().currentUser
+    val userId = user?.uid
 
     override fun onStart() {
         super.onStart()
@@ -50,13 +57,14 @@ class CartActivity : AppCompatActivity(), ICartLoadListener {
         setContentView(R.layout.activity_cart)
         init()
         loadCartFromFirebase()
+
     }
 
     private fun loadCartFromFirebase() {
         val cartModels : MutableList<CartModel> = ArrayList()
         FirebaseDatabase.getInstance()
             .getReference("Cart")
-            .child("UNIQUE_USER_ID")
+            .child(userId!!)
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for(cartSnapshot in snapshot.children)
@@ -79,9 +87,34 @@ class CartActivity : AppCompatActivity(), ICartLoadListener {
         val layoutManager = LinearLayoutManager(this)
         var recycler_cart = findViewById<RecyclerView>(R.id.recycler_cart)
         var btnBack = findViewById<ImageView>(R.id.btnBack)
+        var btnDeleteAll = findViewById<Button>(R.id.btnDeleteAll)
+        btnDeleteAll.setOnClickListener{
+            deleteAllItems(it)
+        }
+
         recycler_cart!!.layoutManager = layoutManager
         recycler_cart!!.addItemDecoration(DividerItemDecoration(this,layoutManager.orientation))
         btnBack!!.setOnClickListener{finish()}
+
+    }
+    private fun deleteAllItems(view: View) {
+        showConfirmationDialog()
+    }
+
+    private fun showConfirmationDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.delete_confirmation_dialog)
+        val btnGotIt = dialog.findViewById<Button>(R.id.btnGotIt)
+        btnGotIt.setOnClickListener {
+            dialog.dismiss()
+            // Add the logic here to delete all items from the cart (as previously described).
+            val cartReference = FirebaseDatabase.getInstance().getReference("Cart")
+            cartReference.child(userId!!).removeValue()
+            EventBus.getDefault().postSticky(UpdateCartEvent())
+            // After deleting, load the updated cart data
+            loadCartFromFirebase()
+        }
+        dialog.show()
     }
 
     override fun onLoadCartSuccess(cartModelList: List<CartModel>) {

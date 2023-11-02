@@ -66,9 +66,11 @@ class MainActivity : AppCompatActivity(), IDrinkLoadListener, ICartLoadListener 
 
     private fun countCartFromFirebase() {
         val cartModels : MutableList<CartModel> = ArrayList()
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
         FirebaseDatabase.getInstance()
             .getReference("Cart")
-            .child("UNIQUE_USER_ID")
+            .child(userId!!)
             .addListenerForSingleValueEvent(object:ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for(cartSnapshot in snapshot.children)

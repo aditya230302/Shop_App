@@ -14,6 +14,7 @@ import com.example.ecommerce.listener.ICartLoadListener
 import com.example.ecommerce.listener.IRecyclerClickListener
 import com.example.ecommerce.model.CartModel
 import com.example.ecommerce.model.DrinkModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -82,9 +83,11 @@ class MyDrinkAdapter (
     }
 
     private fun addToCart(drinkModel: DrinkModel){
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
         val userCart = FirebaseDatabase.getInstance()
             .getReference("Cart")
-            .child("UNIQUE_USER_ID")
+            .child(userId!!)
         userCart.child(drinkModel.key!!)
             .addListenerForSingleValueEvent(object :ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {

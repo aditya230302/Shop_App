@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.ecommerce.R
 import com.example.ecommerce.eventbus.UpdateCartEvent
 import com.example.ecommerce.model.CartModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import org.greenrobot.eventbus.EventBus
 import java.lang.StringBuilder
@@ -35,6 +36,7 @@ class MyCartAdapter(
         var txtQuantity:TextView?=null
 
 
+
         init{
             btnMinus = itemView.findViewById(R.id.btnMinus) as ImageView
             btnPlus = itemView.findViewById(R.id.btnPlus) as ImageView
@@ -43,6 +45,7 @@ class MyCartAdapter(
             btnDelete = itemView.findViewById(R.id.btnDelete) as ImageView
             txtPrice = itemView.findViewById(R.id.txtPrice) as TextView
             txtQuantity = itemView.findViewById(R.id.txtQuantity) as TextView
+
 
 
 
@@ -67,6 +70,9 @@ class MyCartAdapter(
         holder.txtPrice!!.text = StringBuilder("$").append(cartModelList[position].price)
         holder.txtQuantity!!.text = StringBuilder("").append(cartModelList[position].quantity)
 
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
+
         //Event
         holder.btnMinus!!.setOnClickListener{_ -> minusCartItem(holder,cartModelList[position])}
         holder.btnPlus!!.setOnClickListener{_ -> plusCartItem(holder,cartModelList[position])}
@@ -79,7 +85,7 @@ class MyCartAdapter(
                     notifyItemRemoved(position)
                     FirebaseDatabase.getInstance()
                         .getReference("Cart")
-                        .child("UNIQUE_USER_ID")
+                        .child(userId!!)
                         .child(cartModelList[position].key!!)
                         .removeValue()
                         .addOnSuccessListener { EventBus.getDefault().postSticky(UpdateCartEvent()) }
@@ -111,9 +117,11 @@ class MyCartAdapter(
     }
 
     private fun updateFirebase(cartModel: CartModel) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
         FirebaseDatabase.getInstance()
             .getReference("Cart")
-            .child("UNIQUE_USER_ID")
+            .child(userId!!)
             .child(cartModel.key!!)
             .setValue(cartModel)
             .addOnSuccessListener { EventBus.getDefault().postSticky(UpdateCartEvent()) }
