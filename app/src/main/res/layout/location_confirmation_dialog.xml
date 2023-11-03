@@ -2,30 +2,53 @@
 <!-- location_confirmation_dialog.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="400dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:layout_width="135dp"
+        android:layout_height="146dp"
+        android:src="@drawable/appicon"
+        android:layout_gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/locationTextView1"
+        android:text="Is this your Address : "
+        android:textColor="@color/black"
+        android:scrollbars="none"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:padding="16dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/locationTextView"
+        android:background="@drawable/edittextbackground"
         android:text=""
         android:gravity="center"
         android:textSize="18sp"
         android:padding="16dp"/>
 
     <Button
+        android:id="@+id/btnYesLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
         android:text="Yes, set it as my location"
-        android:textColor="@color/black"
-        android:id="@+id/btnYesLocation" />
+        android:textColor="@color/white"
+        app:cornerRadius="10dp" />
 
     <Button
+        android:id="@+id/btnNoLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
         android:text="No, I want to input my location"
-        android:textColor="@color/black"
-        android:id="@+id/btnNoLocation" />
+        android:textColor="@color/white"
+        app:cornerRadius="10dp" />
 </LinearLayout>

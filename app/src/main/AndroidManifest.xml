@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ecommerce"
+        android:theme="@style/Base.Theme.Ecommerce"
         tools:targetApi="31">
         <activity
             android:name=".CartActivity"
