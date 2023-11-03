@@ -42,6 +42,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnSuccessListener
 import android.Manifest
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity(), IDrinkLoadListener, ICartLoadListener {
 
@@ -120,12 +121,14 @@ class MainActivity : AppCompatActivity(), IDrinkLoadListener, ICartLoadListener 
                                 {
                                     // "Yes, set it as my location" button clicked
                                     updateLocationInFirebase(obtainedLocation)
+                                    Toast.makeText(this,"Location Saved",Toast.LENGTH_LONG).show()
                                 },
                                 {
                                     // "No, I want to input my location" button clicked
                                     customLocationAdapter.showCustomLocationDialog { customLocation ->
                                         // Save the custom location to Firebase
                                         updateLocationInFirebase(customLocation)
+                                        Toast.makeText(this,"Location Saved",Toast.LENGTH_LONG).show()
                                     }
                                 }
                             )
@@ -208,6 +211,7 @@ class MainActivity : AppCompatActivity(), IDrinkLoadListener, ICartLoadListener 
         btnCart.setOnClickListener{ startActivity(Intent(this,CartActivity::class.java))}
         btnBack.setOnClickListener{
             auth.signOut()
+            Toast.makeText(this,"Signed Out",Toast.LENGTH_LONG).show()
             val intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
             finish()

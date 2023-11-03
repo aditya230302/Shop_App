@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -113,6 +114,7 @@ class CartActivity : AppCompatActivity(), ICartLoadListener {
             EventBus.getDefault().postSticky(UpdateCartEvent())
             // After deleting, load the updated cart data
             loadCartFromFirebase()
+            Toast.makeText(this,"Your Order Has been Successfully Placed", Toast.LENGTH_LONG).show()
         }
         dialog.show()
     }

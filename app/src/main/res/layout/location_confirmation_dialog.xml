@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="400dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center">
@@ -25,30 +25,36 @@
         android:textSize="20sp"
         android:padding="16dp"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:id="@+id/locationTextView"
+        android:elevation="20dp"
         android:background="@drawable/edittextbackground"
         android:text=""
         android:gravity="center"
+        android:layout_gravity="center"
         android:textSize="18sp"
         android:padding="16dp"/>
 
     <Button
         android:id="@+id/btnYesLocation"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/black"
+        android:elevation="20dp"
         android:text="Yes, set it as my location"
         android:textColor="@color/white"
-        app:cornerRadius="10dp" />
+        app:cornerRadius="10dp"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/btnNoLocation"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/black"
+        android:elevation="20dp"
         android:text="No, I want to input my location"
         android:textColor="@color/white"
-        app:cornerRadius="10dp" />
+        app:cornerRadius="10dp"
+        android:layout_gravity="center"/>
 </LinearLayout>
