@@ -81,7 +81,7 @@ class LoginActivity : AppCompatActivity(){
         val password = pwd1
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if(task.isSuccessful){
-                val intent = Intent(this,MainActivity::class.java)
+                val intent = Intent(this,WelcomeSplashScreen::class.java)
                 startActivity(intent)
                 finish()
         }
