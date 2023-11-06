@@ -1,0 +1,94 @@
+{
+  "Drink": {
+    "01": {
+      "name": "Tea Lychee",
+      "price": "2.0",
+      "image": "https://www.highlandscoffee.com.vn/vnt_upload/product/04_2020/TRATHACHVAI_1.png"
+    },
+    "02": {
+      "name": "Tea Peach",
+      "price": "2.5",
+      "image": "https://www.highlandscoffee.com.vn/vnt_upload/product/03_2018/thumbs/270_crop_TRATHANHDAO.png"
+    },
+    "03": {
+      "name": "Tea Lotus",
+      "price": "2.0",
+      "image": "https://www.highlandscoffee.com.vn/vnt_upload/product/03_2018/thumbs/270_crop_TRASENVANG.png"
+    },
+    "04": {
+      "name": "Ice Bac Xiu",
+      "price": "2.5",
+      "image": "https://www.highlandscoffee.com.vn/vnt_upload/product/04_2020/thumbs/270_crop_Bac_Xiu_Da.png"
+    },
+    "05": {
+      "name": "Coffe Black",
+      "price": "3.0",
+      "image": "https://www.highlandscoffee.com.vn/vnt_upload/product/05_2018/thumbs/270_crop_CFD.png"
+    },
+    "06": {
+      "name": "Coffe Milk",
+      "price": "2.0",
+      "image": "https://www.highlandscoffee.com.vn/vnt_upload/product/03_2018/thumbs/270_crop_PHIN-SUA-DA.png"
+    },
+    "07": {
+      "name": "Belgium Chocolate Truffle Cake",
+      "price": "10.0",
+      "image": "https://assets.winni.in/product/primary/2022/9/74421.jpeg?dpr=1&w=1000"
+    },
+    "08": {
+      "name": "Heavenly Rose Cake",
+      "price": "12.0",
+      "image": "https://assets.winni.in/product/primary/2022/7/71523.png?dpr=1&w=1000"
+    },
+    "09": {
+      "name": "Yummy Pineapple Cake",
+      "price": "7.0",
+      "image": "https://assets.winni.in/product/primary/2023/8/88957.jpeg?dpr=1&w=400"
+    },
+    "10": {
+      "name": "Exotic Fruit Cake",
+      "price": "6.0",
+      "image": "https://assets.winni.in/product/primary/2023/10/90475.jpeg?dpr=1&w=1000"
+    },
+    "11": {
+      "name": "Frosting Red Velvet Cake",
+      "price": "9.0",
+      "image": "https://assets.winni.in/product/primary/2022/9/74481.jpeg?dpr=1&w=1000"
+    },
+    "12": {
+      "name": "Delicious Rasmalai Cake",
+      "price": "11.0",
+      "image": "https://assets.winni.in/product/primary/2022/9/73551.jpeg?dpr=1&w=1000"
+    },
+    "13": {
+      "name": "Banana Chocolate Cookies 660 G",
+      "price": "4.0",
+      "image": "https://www.fabbox.in/cdn/shop/products/bananacookies_540x_c2cd9050-754f-4c4c-b9a8-3765b3faf114_540x.png?v=1647945714"
+    },
+    "14": {
+      "name": "Almond Health Bar (No Sugar)",
+      "price": "5.0",
+      "image": "https://www.fabbox.in/cdn/shop/products/Almond-Health-Bar_540x_6cd5824f-6f5e-44bc-8c5c-0bfed74619da_540x.jpg?v=1647945690"
+    },
+    "15": {
+      "name": "Nimbu Roasted Chana Jor 540 Gms",
+      "price": "4.0",
+      "image": "https://www.fabbox.in/cdn/shop/products/CHANA-JOR-GARAM_c84ee53c-0a1f-4ee2-a083-ecb14da4caeb_540x.png?v=1647946140"
+    },
+    "16": {
+      "name": "Mixed Seed Chaat",
+      "price": "4.0",
+      "image": "https://www.fabbox.in/cdn/shop/products/Mix-Seed-Chaar_720x.png?v=1526381106"
+    },
+    "17": {
+      "name": "High Protein Nacho Rings",
+      "price": "2.0",
+      "image": "https://www.fabbox.in/cdn/shop/products/nachoring_540x.png?v=1647945899"
+    },
+    "18": {
+      "name": "Exotic Fruits Mix (Masala)",
+      "price": "2.0",
+      "image": "https://www.fabbox.in/cdn/shop/products/exoyic-mix-fruit_360x.jpg?v=1647945839"
+    }
+  }
+}
